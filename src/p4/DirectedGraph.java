@@ -1,16 +1,14 @@
 package p4;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class DirectedGraph<V> {
 
 	private enum Marks {UNDISCOVERED, DISCOVERED}; 
-	private List<V> vertices = new ArrayList();
-	private List<List<Integer>> edges = new ArrayList();
+	private List<V> vertices = new ArrayList<V>();
+	private List<LinkedList<Integer>> edges = new ArrayList<LinkedList<Integer>>();
 	private Marks[] marks;
 	private boolean cycle;
 
@@ -29,7 +27,7 @@ public class DirectedGraph<V> {
 		return vertices;
 	}
 
-	public List<Integer> getNeighbors(int i)
+	public List<Integer> getEdges(int i)
 	{
 		return edges.get(i);
 	}
@@ -42,7 +40,7 @@ public class DirectedGraph<V> {
 	public void addVertex(V vertex)
 	{
 		vertices.add(vertex);
-		edges.add(new ArrayList());
+		edges.add(new LinkedList<>());
 	}
 
 	public void addEdge(int left, int right)
@@ -52,7 +50,7 @@ public class DirectedGraph<V> {
 
 	public ArrayList<V> depthFirst(int start)
 	{
-		ArrayList<V> list = new ArrayList();
+		ArrayList<V> list = new ArrayList<V>();
 		marks = new Marks[getSize()];
 		for (int i = 0; i < marks.length; i++)
 			marks[i] = Marks.UNDISCOVERED;
@@ -98,6 +96,3 @@ public class DirectedGraph<V> {
 		return false;
 	}
 	}
-
-
-
