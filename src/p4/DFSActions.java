@@ -1,11 +1,11 @@
 package p4;
 
 public interface DFSActions {
-    void processVertex();
+    void processVertex(Vertex v);
 
-    void descendVertex();
+    void descend();
 
-    void ascendVertex();
+    void ascend();
 
     void cycleDetected();
 }

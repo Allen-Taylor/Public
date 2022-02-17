@@ -1,9 +1,6 @@
 package p4;
 
-import java.util.ArrayList;
-
 public class Main {
-
 
 	public static void main(String[] args) {
 		DirectedGraph<Vertex> dg = new DirectedGraph<Vertex>();
@@ -11,39 +8,74 @@ public class Main {
 		Vertex classB = new Vertex("ClassB");
 		Vertex classC = new Vertex("ClassC");
 		Vertex classD = new Vertex("ClassD");
+		Vertex classE = new Vertex("ClassE");
+		Vertex classF = new Vertex("ClassF");
+		Vertex classG = new Vertex("ClassG");
+		Vertex classH = new Vertex("ClassH");
+		Vertex classI = new Vertex("ClassI");
+		Vertex classJ = new Vertex("ClassJ");
+
 		dg.addVertex(classA);
 		dg.addVertex(classB);
 		dg.addVertex(classC);
 		dg.addVertex(classD);
+		dg.addVertex(classE);
+		dg.addVertex(classF);
+		dg.addVertex(classG);
+		dg.addVertex(classH);
+		dg.addVertex(classI);
+		dg.addVertex(classJ);
+
 		int classA_Index = dg.getIndex(classA);
 		int classB_Index = dg.getIndex(classB);
 		int classC_Index = dg.getIndex(classC);
 		int classD_Index = dg.getIndex(classD);
-		
-		dg.addEdge(classA_Index, classB_Index);
-		dg.addEdge(classA_Index, classC_Index);
-		
-		dg.addEdge(classB_Index, classA_Index);
-		dg.addEdge(classB_Index, classC_Index);
-		
-		dg.addEdge(classC_Index, classA_Index);
-		dg.addEdge(classC_Index, classD_Index);
-		
-		dg.addEdge(classD_Index, classC_Index);
-		
-		ArrayList<Vertex> dfs = dg.depthFirst(0);
-		System.out.println(dfs);
-		
-		for(Vertex v : dfs) {
-			int index = dg.getIndex(v);
-			for(Integer i : dg.getEdges(index)) {
-				System.out.println(v + " -> "+dg.getVertex(i));
-			}
+		int classE_Index = dg.getIndex(classE);
+		int classF_Index = dg.getIndex(classF);
+		int classG_Index = dg.getIndex(classG);
+		int classH_Index = dg.getIndex(classH);
+		int classI_Index = dg.getIndex(classI);
+		int classJ_Index = dg.getIndex(classJ);
 
-		}
+		// ClassA
+		dg.addEdge(classA_Index, classC_Index);
+		dg.addEdge(classA_Index, classE_Index);
+		dg.addEdge(classA_Index, classJ_Index);
+
+		// ClassB
+		dg.addEdge(classB_Index, classD_Index);
+		dg.addEdge(classB_Index, classG_Index);
+
+		// ClassC
+		dg.addEdge(classC_Index, classA_Index);
+
+		// ClassE
+		dg.addEdge(classE_Index, classB_Index);
+		dg.addEdge(classE_Index, classF_Index);
+		dg.addEdge(classE_Index, classH_Index);
+
+		// ClassJ
+		dg.addEdge(classJ_Index, classB_Index);
+
+		// ClassJ
+		dg.addEdge(classI_Index, classC_Index);
+
+		System.out.println("Vertices: " + dg.getVertices() + "\n");
+
+		dg.depthFirst();
+
+		// Print parenthesizedList
+		String parenthesizedList = dg.getParenthesizedList().toString();
+		System.out.println(parenthesizedList);
+		
+		// Print hierarchy
+		String hierarchy = dg.getHierarchy().toString();
+		System.out.println(hierarchy);
 		
 		
 		
+		
+
 	}
 
 }

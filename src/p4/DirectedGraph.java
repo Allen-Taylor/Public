@@ -1,98 +1,114 @@
 package p4;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class DirectedGraph<V> {
 
-	private enum Marks {UNDISCOVERED, DISCOVERED}; 
+	Set<V> dfsDiscovered = new HashSet<>();
+	Set<V> dfsVisited = new HashSet<>();
+
 	private List<V> vertices = new ArrayList<V>();
 	private List<LinkedList<Integer>> edges = new ArrayList<LinkedList<Integer>>();
-	private Marks[] marks;
-	private boolean cycle;
 
-	public V getVertex(int i)
-	{
+	boolean cycle;
+	
+	ParenthesizedList parenthesizedList = new ParenthesizedList();
+	Hierarchy hierarchy = new Hierarchy();
+	
+	public V getVertex(int i) {
 		return vertices.get(i);
 	}
 
-	public int getIndex(Vertex vertex)
-	{
-		return vertices.indexOf(vertex);
+	public int getIndex(V v) {
+		return vertices.indexOf(v);
 	}
 
-	public List<V> getVertices()
-	{
+	public List<V> getVertices() {
 		return vertices;
 	}
 
-	public List<Integer> getEdges(int i)
-	{
+	public List<Integer> getEdge(int i) {
 		return edges.get(i);
 	}
 
-	public int getSize()
-	{
+	public List<LinkedList<Integer>> getEdges() {
+		return edges;
+	}
+
+	public ParenthesizedList getParenthesizedList() {
+		return parenthesizedList;
+	}
+	
+	public Hierarchy getHierarchy() {
+		return hierarchy;
+	}
+
+	public Set<V> getDfsVisited() {
+		return dfsVisited;
+	}
+
+	public int getSize() {
 		return vertices.size();
 	}
 
-	public void addVertex(V vertex)
-	{
+	public void addVertex(V vertex) {
 		vertices.add(vertex);
 		edges.add(new LinkedList<>());
 	}
 
-	public void addEdge(int left, int right)
-	{
+	public void addEdge(int left, int right) {
 		edges.get(left).add(right);
 	}
 
-	public ArrayList<V> depthFirst(int start)
-	{
-		ArrayList<V> list = new ArrayList<V>();
-		marks = new Marks[getSize()];
-		for (int i = 0; i < marks.length; i++)
-			marks[i] = Marks.UNDISCOVERED;
+	public void depthFirst() {
 		cycle = false;
-		dfs(start, start, list);
-		return list;
-	}
-	
-	private void dfs(int previous, int current, ArrayList<V> list)
-	{
-		if (marks[current] == Marks.DISCOVERED)  //if s is discovered
-		{
-			cycle = true; //perform cycle detected action
-			return; //return
-		}
-		list.add(vertices.get(current)); //perform add vertex action
-		//perform descend action ????????????
-		marks[current] = Marks.DISCOVERED; //mark s as discovered
-		for (int next = 0; next < getSize(); next++) //for all adjacent vertices v
-			if (next != previous && edges.get(current).contains(next)) 
-				dfs(current, next, list); //depth_first_search(v)
-		 //perform ascend action ?????????????
-		 //mark s as finished ????????????????
+		dfs(getVertex(0));
 	}
 
-	public boolean isConnected()
-	{
-		depthFirst(0);
-		for (Marks mark : marks)
-			if (mark == Marks.UNDISCOVERED)
-				return false;
-		return true;
+	private void dfs(V v) {
+		if (dfsDiscovered.contains(v)) {
+			cycle = true;
+			
+			parenthesizedList.cycleDetected();
+			hierarchy.cycleDetected();
+			
+			return;
+		}
+		
+		parenthesizedList.processVertex((Vertex) v);
+		hierarchy.processVertex((Vertex) v);
+		
+		parenthesizedList.descend();
+		hierarchy.descend();
+		
+		dfsVisited.add(v);
+		dfsDiscovered.add(v);
+		
+		LinkedList<Integer> list = getEdges().get(getIndex(v));
+
+		if (list != null) {
+			for (Integer i : list)
+				dfs(getVertex(i));
+		}
+		
+		parenthesizedList.ascend();
+		hierarchy.ascend();
+		
+		dfsDiscovered.remove(v);
 	}
 
-	boolean hasCycles()
-	{
-		for (int vertex = 0; vertex < getSize(); vertex++)
-		{
-			depthFirst(vertex);
-			if (cycle)
-				return true;
-		}
-		return false;
+
+
+	public List<V> unreachableClasses() {
+		Set<V> discovered = getDfsVisited();
+		List<V> verts = getVertices();
+		verts.removeAll(discovered);
+		return verts;
+
 	}
-	}
+
+}
