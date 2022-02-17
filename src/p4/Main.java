@@ -60,22 +60,17 @@ public class Main {
 		// ClassJ
 		dg.addEdge(classI_Index, classC_Index);
 
-		//System.out.println("Vertices: " + dg.getVertices() + "\n");
+		// System.out.println("Vertices: " + dg.getVertices() + "\n");
 
 		dg.depthFirst();
 
-		//Print parenthesizedList
-		//String parenthesizedList = dg.getParenthesizedList().toString();
-		//System.out.println(parenthesizedList);
-		
+		// Print parenthesizedList
+		// String parenthesizedList = dg.getParenthesizedList().toString();
+		// System.out.println(parenthesizedList);
+
 		// Print hierarchy
 		String hierarchy = dg.getHierarchy().toString();
 		System.out.println(hierarchy);
-
-		
-		
-		
-		
 
 	}
 

@@ -6,8 +6,8 @@ class ParenthesizedList implements DFSActions {
 
 	@Override
 	public void processVertex(Vertex vertex) {
-		str = str.concat(vertex.toString()+" ");
-	
+		str = str.concat(vertex.toString() + " ");
+
 	}
 
 	@Override
@@ -25,14 +25,13 @@ class ParenthesizedList implements DFSActions {
 		str = str.concat("* ");
 	}
 
-	
 	public void printStr() {
 
 	}
 
 	@Override
 	public String toString() {
-		str = "( "+str+ ")";
+		str = "( " + str + ")";
 		str = str.replace("( * )", "*").replace("( ) ", "");
 		return str;
 
