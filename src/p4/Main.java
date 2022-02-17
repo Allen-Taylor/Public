@@ -1,5 +1,7 @@
 package p4;
 
+import java.util.List;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -60,18 +62,24 @@ public class Main {
 		// ClassJ
 		dg.addEdge(classI_Index, classC_Index);
 
-		// System.out.println("Vertices: " + dg.getVertices() + "\n");
-
+		// DFS 
 		dg.depthFirst();
 
-		// Print parenthesizedList
-		// String parenthesizedList = dg.getParenthesizedList().toString();
-		// System.out.println(parenthesizedList);
+		// print parenthesizedList
+		String parenthesizedList = dg.getParenthesizedList().toString();
+		System.out.println("Parenthesized List Representation:\n");
+		System.out.println(parenthesizedList+"\n");
 
-		// Print hierarchy
+		// print hierarchy
 		String hierarchy = dg.getHierarchy().toString();
-		System.out.println(hierarchy);
+		System.out.println("Hierarchy Representation:\n");
+		System.out.println(hierarchy+"\n");
 
+		System.out.println("Unreachable Classes:\n");
+		List<Vertex> urc = dg.unreachableClasses();
+		for(Vertex v : urc) {
+			System.out.println(v.toString());
+		}
 	}
 
 }
